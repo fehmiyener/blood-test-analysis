@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Kan Tahlili Analiz Uygulaması</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h1>Kan Tahlili Analiz Raporu</h1>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" class="mb-4">
+                    <div class="form-group">
+                        <label for="file">Kan tahlili sonucunuzu yükleyin (txt, pdf, png, jpg, jpeg):</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="file" name="file">
+                            <label class="custom-file-label" for="file">Dosya Seç...</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Analiz Et</button>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="alert alert-danger mt-3">
+                            {{ messages[0] }}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% if summary %}
+                    <div class="mt-4">
+                        <h3>Analiz Sonuçları</h3>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Test Adı</th>
+                                    <th>Sonuç</th>
+                                    <th>Birim</th>
+                                    <th>Referans Aralığı</th>
+                                    <th>Değerlendirme</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in summary.results %}
+                                    <tr>
+                                        <td>{{ result.test }}</td>
+                                        <td>{{ result.value }}</td>
+                                        <td>{{ result.unit }}</td>
+                                        <td>{{ result.range }}</td>
+                                        <td class="interpretation {{ result.status | lower }}">{{ result.status }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="card result-card mt-4">
+                            <div class="card-header">Genel Değerlendirme ve Tavsiye</div>
+                            <div class="card-body">
+                                <p class="card-text">{{ summary.advice }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="footer">
+                Bu rapor yapay zeka tarafından oluşturulmuştur ve tıbbi bir tavsiye niteliği taşımaz. Lütfen sonuçlarınızı bir doktora danışın.
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.querySelector('.custom-file-input').addEventListener('change', function(e){
+          var fileName = document.getElementById("file").files[0].name;
+          var nextSibling = e.target.nextElementSibling
+          nextSibling.innerText = fileName
+        })
+    </script>
+</body>
+</html>

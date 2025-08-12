@@ -1,0 +1,40 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 800px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.result-card {
+    margin-bottom: 1.5rem;
+}
+
+.interpretation.high {
+    color: #dc3545; /* Red for high */
+    font-weight: bold;
+}
+
+.interpretation.low {
+    color: #ffc107; /* Amber for low */
+    font-weight: bold;
+}
+
+.interpretation.normal {
+    color: #28a745; /* Green for normal */
+}
+
+.footer {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #e9ecef;
+    border-radius: .3rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
